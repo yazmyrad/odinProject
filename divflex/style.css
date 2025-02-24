@@ -75,3 +75,19 @@
 	height:100px;
 	margin: 5px;
 }
+
+
+#main-container4{
+	width:100%;
+	border: 1px solid red;
+	display:flex;
+	flex-direction:column;
+}
+
+#main-container4 div{
+	border:1px solid blue;
+	margin: 5px;
+	height: 70px;
+	width:	150px;
+	flex:	1;
+}
