@@ -1,9 +1,17 @@
 let HumanScore 	  = 0;
 let ComputerScore = 0;
+let HumanChoice   = '';
+let maxiteration = 5;
+let iteration	 = 0;
+
 
 const result = document.querySelector("#box");
 const scores = document.querySelector("#score").firstElementChild;
+
 const prg = document.createElement("p");
+prg.classList.add("gameresult");
+result.appendChild(prg);
+
 function getComputerChoice(){
 	let randomNumber = Math.floor(Math.random() * 3);
 	if (randomNumber == 0){
@@ -15,59 +23,77 @@ function getComputerChoice(){
 	}
 };
 
-function getHumanChoice(){
-	let choice = parseInt(prompt("Please make your choice! 1- Rock, 2- Paper, 3- Scissors"));
-	if (choice == 1){
-		return "Rock";
-	}else if (choice == 2){
-		return "Paper";
-	}else if (choice == 3){
-		return "Scissors";
-	}else {
-		return "Not valid input";
-	}
-};
 
-function playRound(){
+function playRound(userChoice){
 	const ComputerChoice = getComputerChoice();
-	const HumanChoice    = getHumanChoice();
 	let text = '';
-	if(ComputerChoice === HumanChoice){
+	if(ComputerChoice === userChoice){
 		HumanScore++;
 		ComputerScore++;
 		text = "Draw";
-	}else if(ComputerChoice == "Rock" && HumanChoice == "Paper"){
+	}else if(ComputerChoice == "Rock" && userChoice == "Paper"){
 		HumanScore++;
 		text =  "You win! Paper beats Rock";	
-	}else if(ComputerChoice == "Paper" && HumanChoice == "Rock"){
+	}else if(ComputerChoice == "Paper" && userChoice == "Rock"){
 		ComputerScore++;
 		text = "You lose! Paper beats Rock";	
-	}else if(ComputerChoice == "Scissors" && HumanChoice == "Paper"){
+	}else if(ComputerChoice == "Scissors" && userChoice == "Paper"){
 		ComputerScore++;
 		text = "You lose! Scissors beats Paper";	
-	}else if(ComputerChoice == "Paper" && HumanChoice == "Scissors"){
+	}else if(ComputerChoice == "Paper" && userChoice == "Scissors"){
 		HumanScore++;
 		text = "You win! Scissors beats Paper";	
-	}else if(ComputerChoice == "Rock" && HumanChoice == "Scissors"){
+	}else if(ComputerChoice == "Rock" && userChoice == "Scissors"){
 		ComputerScore++;
 		text = "You lose! Rock beats Scissors";	
-	}else if(ComputerChoice == "Scissors" && HumanChoice == "Rock"){
+	}else if(ComputerChoice == "Scissors" && userChoice == "Rock"){
 		HumanScore++;
 		text = "You win! Rock beats Scissors";	
 	}
+	
 	return text;
 };
 
-prg.classList.add("gameresult");
-result.appendChild(prg);
+function game(){
+	const button = document.querySelectorAll(".btn");
+	button.forEach(btn => { 
+		btn.addEventListener("click", function(){
 
-for(let i =0; i<5; i++){
-	setTimeout(() => {
-		let result = playRound();
-		prg.textContent = result;
-		score.textContent = `Human score is - ${HumanScore}. Computer score is - ${ComputerScore}`;
-    	}, i * 100);		
+			let choice = parseInt(this.dataset.value);
 	
+			if (choice == 4) {
+				HumanScore = 0;
+				ComputerScore = 0;
+				iteration = 0;
+				prg.textContent = '';
+				score.textContent = `Human score is - ${HumanScore}. Computer score is - ${ComputerScore}`;
+			}else { 
+				if (iteration >= maxiteration) {
+					console.log("Maximum iterations reached. Game over!");
+					return; // Stop if max iterations are reached
+				}
+				if (choice == 1){
+					HumanChoice = "Rock";
+				}else if (choice == 2){
+					HumanChoice = "Paper";
+				}else if(choice == 3){
+					HumanChoice = "Scissors";
+				}
+				let result = playRound(HumanChoice);
+
+				prg.textContent = result;
+				score.textContent = `Human score is - ${HumanScore}. Computer score is - ${ComputerScore}`;
+				iteration++; 
+				if(iteration == maxiteration){
+					console.log("Game over!");
+				};
+			}		
+			
+		});
+	});
 };
+
+
+game();
 
 
