@@ -1,6 +1,9 @@
 let HumanScore 	  = 0;
 let ComputerScore = 0;
 
+const result = document.querySelector("#box");
+const scores = document.querySelector("#score").firstElementChild;
+const prg = document.createElement("p");
 function getComputerChoice(){
 	let randomNumber = Math.floor(Math.random() * 3);
 	if (randomNumber == 0){
@@ -28,35 +31,43 @@ function getHumanChoice(){
 function playRound(){
 	const ComputerChoice = getComputerChoice();
 	const HumanChoice    = getHumanChoice();
+	let text = '';
 	if(ComputerChoice === HumanChoice){
 		HumanScore++;
 		ComputerScore++;
-		console.log("Draw");
+		text = "Draw";
 	}else if(ComputerChoice == "Rock" && HumanChoice == "Paper"){
 		HumanScore++;
-		console.log("You win! Paper beats Rock");	
+		text =  "You win! Paper beats Rock";	
 	}else if(ComputerChoice == "Paper" && HumanChoice == "Rock"){
 		ComputerScore++;
-		console.log("You lose! Paper beats Rock");	
+		text = "You lose! Paper beats Rock";	
 	}else if(ComputerChoice == "Scissors" && HumanChoice == "Paper"){
 		ComputerScore++;
-		console.log("You lose! Scissors beats Paper");	
+		text = "You lose! Scissors beats Paper";	
 	}else if(ComputerChoice == "Paper" && HumanChoice == "Scissors"){
 		HumanScore++;
-		console.log("You win! Scissors beats Paper");	
+		text = "You win! Scissors beats Paper";	
 	}else if(ComputerChoice == "Rock" && HumanChoice == "Scissors"){
 		ComputerScore++;
-		console.log("You lose! Rock beats Scissors");	
+		text = "You lose! Rock beats Scissors";	
 	}else if(ComputerChoice == "Scissors" && HumanChoice == "Rock"){
 		HumanScore++;
-		console.log("You win! Rock beats Scissors");	
+		text = "You win! Rock beats Scissors";	
 	}
+	return text;
 };
 
+prg.classList.add("gameresult");
+result.appendChild(prg);
 
 for(let i =0; i<5; i++){
-	playRound();
+	setTimeout(() => {
+		let result = playRound();
+		prg.textContent = result;
+		score.textContent = `Human score is - ${HumanScore}. Computer score is - ${ComputerScore}`;
+    	}, i * 100);		
+	
 };
 
-console.log(`Human score is - ${HumanScore}. Computer score is - ${ComputerScore}`);
 
