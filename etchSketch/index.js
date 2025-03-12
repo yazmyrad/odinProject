@@ -16,11 +16,21 @@ for (let i=0; i<LENGTH; i++){
 		gridDiv.style.border = '0.7px solid red';
 		gridDiv.style.flex  = '1';
 		gridDiv.style.margin = '5px';
-		gridDiv.style.width  = '10px';
-		gridDiv.style.height = '10px';
+		gridDiv.style.width  = '8px';
+		gridDiv.style.height = '15px';
 
 		block.appendChild(gridDiv);
 	};
 	container.appendChild(block);
 };
+
+let style = document.createElement('style');
+var css  = '.block:hover{ background-color: white }';
+if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+} else {
+    style.appendChild(document.createTextNode(css));
+}
+
+document.getElementsByTagName('head')[0].appendChild(style);
 }
