@@ -1,9 +1,9 @@
 body {
-	background-color:grey;
+	background-color:white;
 }
 
 #container{
-	border:0.8px solid white;
+	border:0.8px solid black;
 	display:flex;
 	flex-direction:column;
 	margin:auto;

@@ -1,4 +1,34 @@
+const colors = [
+    "#3F888F",
+    "#8673A1",
+    "#8F8F8F",
+    "#6D6552",
+    "#57A639",
+    "#dad6ff",
+    "#ffd6e8"
+  ];
+
 let container = document.getElementById("container");
+
+function hoverEffect(){
+	const randomColor = colors[Math.floor(Math.random() * colors.length)];
+	let style = document.createElement('style');
+	style.id = 'dynamic-hover-style';
+	var css  = `.block:hover{ background-color: ${randomColor} }`;
+	
+	if (style.styleSheet) {
+	    style.styleSheet.cssText = css;
+	} else {
+	    style.appendChild(document.createTextNode(css));
+	};
+	
+	const oldStyle = document.getElementById('dynamic-hover-style');
+    	if (oldStyle) {
+		oldStyle.remove();
+   	}
+	
+	document.getElementsByTagName('head')[0].appendChild(style);
+}
 function gridding(LENGTH, WIDTH){
 	
 	for (let i=0; i<LENGTH; i++){
@@ -19,29 +49,10 @@ function gridding(LENGTH, WIDTH){
 		};
 		container.appendChild(block);
 	};
-	const colors = [
-	    "#ffd7d5",
-	    "#ffe9d6",
-	    "#ffffd1",
-	    "#d6ffda",
-	    "#d7eeff",
-	    "#dad6ff",
-	    "#ffd6e8",
-	    "#f5f5dc",
-	    "#f4e4e4",
-	    "#e4e6f4" 
-	  ];
-
-	const randomColor = colors[Math.floor(Math.random() * colors.length)];
-	let style = document.createElement('style');
-	var css  = `.block:hover{ background-color: ${randomColor} }`;
-	if (style.styleSheet) {
-	    style.styleSheet.cssText = css;
-	} else {
-	    style.appendChild(document.createTextNode(css));
-	};
-	document.getElementsByTagName('head')[0].appendChild(style);
-
+	const blocks = document.querySelectorAll('.block');
+	blocks.forEach(block => {
+		block.addEventListener('mouseover', hoverEffect());
+	    });
 }
 
 gridding(16, 16);
@@ -52,6 +63,7 @@ function checkNumber(string){
 var button = document.getElementById('button');
 
 button.addEventListener('click', function() {
+
 	let child = container.firstElementChild;
         while (child) {
             container.removeChild(child);
