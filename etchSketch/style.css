@@ -1,0 +1,11 @@
+body {
+	background-color:grey;
+}
+
+#container{
+	border:0.8px solid white;
+	display:flex;
+	flex-direction:column;
+	margin:auto;
+	height:fit-content;
+}
