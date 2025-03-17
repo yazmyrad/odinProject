@@ -16,7 +16,6 @@ function createButtons(){
 		block.style.margin = '0';
 		block.style.display = 'flex';
 		block.style.flex_direction = 'row';
-		block.style.textAlign = 'center';
 		//block.style.width = '100%';
 		for (let j=0; j<4; j++){
 			if(i == 4 && j == 1){
@@ -27,11 +26,13 @@ function createButtons(){
 			gridDiv.style.borderRadius = '4px';
 			gridDiv.style.margin = '1px';
 			gridDiv.style.flex  = '1';
-			gridDiv.style.height = '50px';
-			gridDiv.style.width = '100px';
+			gridDiv.style.display = 'flex';
+			gridDiv.style.height = '9vh';
+			gridDiv.style.width = '11vh';
 			gridDiv.style.color = 'white';
 			gridDiv.style.backgroundColor = '#217C7E';
-			gridDiv.style.textAlign = 'center';			
+			gridDiv.style.alignItems = 'center';	
+			gridDiv.style.justifyContent = 'center';					
 			gridDiv.innerHTML = BUTTON_NAMES[i][j];
 			block.appendChild(gridDiv);
 		};

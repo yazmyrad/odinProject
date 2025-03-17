@@ -1,12 +1,17 @@
-html {
+body {
 	text-align:center;
+	display:flex;
+	padding:0;
 }
 
 main {
+	
+	display:flex;
 	justify-content:center;
 	align-items:center;
-	min-height:95vh;
-	height:100vh;
+	height:95vh;
+	width:30%;
+	margin:auto;
 }
 
 #mainBox{
@@ -15,22 +20,23 @@ main {
 	border:10px solid rgba(47, 47, 47, 1);	
 	border-radius:4px;
 	flex-direction:column;	
-	width:fit-content;
 	margin:auto;
+	height:70vh;
+	width:80%;
 }
 
 #screen {
 	display:flex;
 	flex:1;
 	border:1px solid blue;
-	width:100%;
-	height:10vh;
+	
 }
 
 #buttons {
 	display:flex;
 	flex:2;
-	border:1px solid black;
+	border:1px solid white;
 	flex-direction:column;	
-	
+	justify-content:center;
+	align-items:center;
 }
