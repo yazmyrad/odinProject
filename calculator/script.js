@@ -7,7 +7,9 @@ BUTTON_NAMES = [['AC', '+/-', '%', '/'],
 		['7', '8', '9', '*'], 
 		['4', '5', '6', '-'], 
 		['1', '2', '3', '+'], 
-		['0', '.', '='] ]
+		['0', '', '.', '='] ]
+
+
 
 function createButtons(){
 	for (let i=0; i<5; i++){
@@ -16,7 +18,7 @@ function createButtons(){
 		block.style.margin = '0';
 		block.style.display = 'flex';
 		block.style.flex_direction = 'row';
-		//block.style.width = '100%';
+		block.style.width = '100%';
 		for (let j=0; j<4; j++){
 			if(i == 4 && j == 1){
 				continue;
@@ -28,20 +30,26 @@ function createButtons(){
 			gridDiv.style.flex  = '1';
 			gridDiv.style.display = 'flex';
 			gridDiv.style.height = '9vh';
-			gridDiv.style.width = '11vh';
+			gridDiv.style.width = '11.5vh';
 			gridDiv.style.color = 'white';
 			gridDiv.style.backgroundColor = '#217C7E';
 			gridDiv.style.alignItems = 'center';	
-			gridDiv.style.justifyContent = 'center';					
+			gridDiv.style.justifyContent = 'center';
+			gridDiv.style.cursor = "pointer";					
 			gridDiv.innerHTML = BUTTON_NAMES[i][j];
 			block.appendChild(gridDiv);
 		};
 		buttons.appendChild(block);
 	};
-	const blocks = document.querySelectorAll('.block');
+	let blocks = document.querySelectorAll('.block');
 	blocks.forEach(block => {
-		block.addEventListener('click', ()=>{block.style.background_color = 'grey'});
-	    });
+	block.addEventListener('mouseup', () => {
+	    block.style.backgroundColor = '#217C7E'; // Add 'key' class on click
+	  });
+	block.addEventListener('mousedown', () => {
+	    block.style.backgroundColor = '#1E7071'; // Add 'key' class on click
+	  });
+	  });
 }
 
 createButtons();

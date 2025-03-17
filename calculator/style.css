@@ -27,16 +27,19 @@ main {
 
 #screen {
 	display:flex;
-	flex:1;
-	border:1px solid blue;
-	
+	flex:1;	
+	border-bottom:1px solid yellow;
 }
 
 #buttons {
 	display:flex;
 	flex:2;
-	border:1px solid white;
 	flex-direction:column;	
 	justify-content:center;
 	align-items:center;
 }
+
+.key{
+	background-color:#ffd6e8;
+}
+
