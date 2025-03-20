@@ -9,81 +9,82 @@ BUTTON_NAMES = [['AC', '+/-', '%', '/'],
 		['0', '', '.', '='] ]
 		
 let stack = [];
-const operators = ['%', '/', '*', '-', '+'];
-const operands  = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-let output = [];
 let operatorStack = [];
 
-const precedence = {
-    '+': 1,
-    '-': 1,
-    '*': 2,
-    '/': 2,
-    '%': 2,
-};
+const operators = ['%', '/', '*', '-', '+'];
+const operands  = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+let regexNumber = /^([+-]?[1-9][0-9]*(\.\d+)?)$/;
+let inputToken = '';
+
 
 function RPN(){
 	let screen = document.getElementById('screen');
-	for(let value of output){
-		if(stack.length !== 0 && operators.includes(value)){
-			let operand1 = parseInt(stack.pop());
-			let operand2 = parseInt(stack.pop());
-			if (value == '%'){
-				stack.push((100 * operand2) / operand1);
-			}
-			if (value == '/'){
-				stack.push(operand2/operand1);
-			}
-			if (value == '*'){
-				stack.push(operand2*operand1);
-			}
-			if (value == '-'){
-				stack.push(operand2-operand1);		
-			}
-			if (value == '+'){
-				stack.push(operand2+operand1);
-			}
-			screen.innerHTML = '';
-		}else if (operands.includes(value)){
-			stack.push(value);
-			screen.innerHTML += value;
+	let value = operatorStack.pop();
+	if(stack.length !== 0 && operators.includes(value)){
+		let result = 0;
+		let operand1 = parseFloat(stack.pop());
+		let operand2 = parseFloat(stack.pop());
+		if (value == '%'){
+			result = ((100 * operand1) / operand2).toFixed(3);
 		}
+		if (value == '/'){
+			result = (operand2/operand1).toFixed(3);
+		}
+		if (value == '*'){
+			result = (operand2*operand1).toFixed(3);
+		}
+		if (value == '-'){
+			result = (operand2-operand1).toFixed(3);		
+		}
+		if (value == '+'){
+			result = (operand2+operand1).toFixed(3);
+		}
+		if (result.includes('.')) {
+			result = result.replace(/\.?0+$/, ''); // Remove trailing zeros and decimal point
+		}
+		stack.push(result);
 	}
-	return stack.pop();
+	
+	return stack[stack.length-1];
 }
-
-function calculation(token) {
-    	
-	if (operands.includes(token)) { 
-	    output.push(token);
-	} else if (operators.includes(token)) {
-	    while (
-		operatorStack.length > 0 &&
-		operators.includes(operatorStack.pop()) &&
-		precedence[operatorStack.pop()] >= precedence[token]
-	    ) {
-		output.push(operatorStack.pop());
-	    }
-	    operatorStack.push(token);
-	}
-console.log(operatorStack, output);
-}
-
 
 
 function getOperation(div){
 	let screen = document.getElementById('screen');
 	let value = div.getAttribute("data-value");
+	
 	if (value === 'AC'){
-		output = [];
+		stack = [];
+        	operatorStack = [];
+        	inputToken = '';
 		screen.innerHTML = '';
 	}else if(value === '='){
-		screen.innerHTML = RPN();
+		if(inputToken.length > 0){
+			stack.push(inputToken);
+		}
+		result = RPN();
+		screen.innerHTML = result;
+		inputToken = result;
+	}else if(value == '.'){
+		inputToken += value;
+		screen.innerHTML += value;
 	}else {
-		calculation(value);
-	}
-	
-	console.log(value);
+		if(operands.includes(value)){
+			inputToken += value;
+			screen.innerHTML += value;
+		}else if(operatorStack.length > 0){
+			RPN();
+			operatorStack.pop();
+		}else{			
+			if (regexNumber.test(inputToken) && !(stack.includes(inputToken))) { 
+			    stack.push(inputToken);
+			}
+			operatorStack.push(value);
+		    inputToken = '';
+		    screen.innerHTML = '';
+		}
+	}	
 }
 
 
