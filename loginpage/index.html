@@ -1,14 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-	  <h1>This should be motto</h1>
-    <script src="index.js"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Sign Up</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<figure id="photo" style="position:relative;">
+			<img src="view.jpg" alt="this is logo" style="height:99vh; width:100%; margin:0; padding:0; bottom:0; top:0;">
+			<h6 style="position:absolute; top:0; margin:0; padding:0;">Photo by <a href="https://unsplash.com/@macro_viewpoint?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kristīne Zāle</a> on <a href="https://unsplash.com/photos/aerial-photography-of-house-near-sea-during-daytime-EZT6qusWOBQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+      </h6>
+		</figure>
+		<main>	
+			<p>Please Sign in!</p>
+			<form method="post" action="/" id="signform">
+				<div class="field">
+					<input id="username" name="user" type="text" placeholder="First name" minlength="3" maxlength="14" required>
+					<label for="username">First Name</label>
+				</div>
+				<div class="field">
+					<input id="lastname" name="lastname" type="text" placeholder="Last name" minlength="3" maxlength="14" required>
+					<label for="lastname">Last Name</label>
+				</div>
+				<div class="field">
+					<input id="email" name="email" type="email" placeholder="Please enter your email!" size="24"
+        maxlength="32" required>
+					<label for="email">Email</label>
+				</div>
+				<div class="field">
+					<input id="phone" name="phonenum" type="number" placeholder="Please enter your number!" required>
+					<label for="phone">Phone number</label>
+				</div>
+				<div class="field">
+					<input id="password" name="password" type="password" required>
+					<label for="password">Password</label>
+				</div>
+				<div class="field">
+					<input id="password" name="confpassword" type="password" required>
+					<label for="password">Confirm Password</label>
+				</div>
+				<button type="submit">Create Account</button>
+			</form>
+			<p>Have account already? Please <a href="#">login</a>! </p>
+		</main>
+	<script src="index.js"></script>
+	</body>
 </html>
