@@ -7,7 +7,7 @@
 [Etch a Sketch](https://yazmyrad.github.io/odinProject/etchSketch/index.html)
 
 ## These are easy projects
-[Calculator](https://yazmyrad.github.io/odinProject/etchSketch/index.html)
+[Calculator](https://yazmyrad.github.io/odinProject/calculator/index.html)
 
 [Sign-up Form](https://yazmyrad.github.io/odinProject/loginpage/)
 
