@@ -4,11 +4,6 @@ let gamestatus = false;
 let horizontal = [0, 3, 6];
 let vertical   = [0, 1, 2];
 
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
 function checkGame(turn) {    
     for(let i of horizontal){
 	    if ((board[i] !== null) && (board[i] === board[i+1]) && (board[i+1] === board[i+2])) {
@@ -37,22 +32,24 @@ function checkGame(turn) {
     return gamestatus;    
 }
 
-async function getHuman() {
-    return new Promise(resolve => {
-        readline.question('Enter number: ', answer => {
-            let num = parseInt(answer);
-            
-            while (isNaN(num) || num < 0 || num > 8) {
-                console.log('Invalid input! Please enter numbers between 0-2');
-                return getHuman().then(resolve);
-            }
-            
-            resolve(num);
-        });
-    });
-}
-
-async function game() {
+function display(turn){
+	let zero = document.querySelector('.zero');
+	let one = document.querySelector('.one');
+	let two = document.querySelector('.two');
+	let three = document.querySelector('.three');
+	let four = document.querySelector('.four');
+	let five = document.querySelector('.five');
+	let six = document.querySelector('.six');
+	let seven = document.querySelector('.seven');
+	let eight = document.querySelector('.eight');
+	
+	zero.addEventListener('click', function() {
+	  zero.style.backgroundImage = "url('close.png')";
+	});
+	
+};
+function getHuman(){};
+function game() {
     let user = 0; // Start with Player 0
     
     for (let turn = 0; turn < 9; turn++) {
@@ -63,12 +60,13 @@ async function game() {
         console.log(board.slice(0, 3));
         console.log(board.slice(3, 6));
         console.log(board.slice(6, 9));
+        display();
         
-        let num = await getHuman();
+        let num = getHuman();
         
         while (board[num] !== null) {
             console.log('Cell already taken! Choose again.');
-            num = await getHuman();
+            num = getHuman();
         }
         
         board[num] = user;
@@ -87,4 +85,4 @@ async function game() {
     return true;
 }
 
-game().then(end => console.log("Game ended:", end));
+//game().then(end => console.log("Game ended:", end));
