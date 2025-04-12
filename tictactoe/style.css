@@ -10,14 +10,16 @@
 	    gap:5px;
 	    background-color:red;
 	    width:40%;
-height:70vh;	
+	height:70vh;	
 	margin-top:5%;
 	    margin-left:auto;
 	    margin-right:auto;
 	    border:1px solid black;
 }
 
-.button {
-	border:1px solid white;
+button {
     background-color:white;
+      background-size: contain;
+      
+  background-repeat: no-repeat;
 }

@@ -32,57 +32,38 @@ function checkGame(turn) {
     return gamestatus;    
 }
 
-function display(turn){
-	let zero = document.querySelector('.zero');
-	let one = document.querySelector('.one');
-	let two = document.querySelector('.two');
-	let three = document.querySelector('.three');
-	let four = document.querySelector('.four');
-	let five = document.querySelector('.five');
-	let six = document.querySelector('.six');
-	let seven = document.querySelector('.seven');
-	let eight = document.querySelector('.eight');
-	
-	zero.addEventListener('click', function() {
-	  zero.style.backgroundImage = "url('close.png')";
-	});
-	
-};
-function getHuman(){};
-function game() {
-    let user = 0; // Start with Player 0
-    
-    for (let turn = 0; turn < 9; turn++) {
-        if (gamestatus) break;
-        
-        console.log(`Player ${user}'s turn`);
-        console.log('Current board:');
-        console.log(board.slice(0, 3));
-        console.log(board.slice(3, 6));
-        console.log(board.slice(6, 9));
-        display();
-        
-        let num = getHuman();
-        
-        while (board[num] !== null) {
-            console.log('Cell already taken! Choose again.');
-            num = getHuman();
-        }
-        
-        board[num] = user;
-        
-        gamestatus = checkGame(turn);
-        
-        user = (user + 1) % 2;
-    }
-    
-    readline.close();
+let user = 0;
+let turn = 0;
+function game(num) {
+
+	if (board[num] !== null) {
+	    console.log('Cell already taken! Choose again.');
+	    return false;
+	}
+
+	board[num] = user;
+
+	gamestatus = checkGame(turn);
+
+	user = (user + 1) % 2;
     
     if (!gamestatus) {
         console.log("It's a draw!");
     }
+    turn +=1;
     
     return true;
 }
 
+document.querySelectorAll('button').forEach(button => { button.addEventListener( "click", () => {
+            const fired_button = parseInt(button.value);
+            button.style.backgroundImage = `url(${user}.png)`;
+            let output = game(fired_button);
+            if (output === false)
+                alert("Already taken");
+            
+            
+        }
+    );
+});
 //game().then(end => console.log("Game ended:", end));
