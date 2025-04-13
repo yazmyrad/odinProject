@@ -16,7 +16,6 @@
 ## These are normal projects
 
 [Library](https://yazmyrad.github.io/odinProject/Book/)
-
+[Tic-tac-toe](https://yazmyrad.github.io/odinProject/tictactoe/)
 
 # Under development
-[Tic-tac-toe](https://yazmyrad.github.io/odinProject/tictactoe/)
