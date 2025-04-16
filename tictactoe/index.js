@@ -1,84 +1,104 @@
-let board = [null, null, null, null, null, null, null, null, null];
-
-let gamestatus = false;
-let horizontal = [0, 3, 6];
-let vertical   = [0, 1, 2];
-let userscore  = [0, 0];
-
-function checkGame(turn) {    
-    for(let i of horizontal){
-	    if ((board[i] !== null) && (board[i] === board[i+1]) && (board[i+1] === board[i+2])) {
-		gamestatus = true;
-		alert(`Player ${(turn % 2) ? 0 : 1} wins!`);
-		userscore[(turn % 2) ? 0 : 1] += 1;
-	    }
-    }
-    
-    for(let i of vertical){
-	    if ((board[i] !== null) && (board[i] === board[i+3]) && (board[i+3] === board[i+6])) {
-		gamestatus = true;
-		alert(`Player ${(turn % 2) ? 0 : 1} wins!`);
-		userscore[(turn % 2) ? 0 : 1] += 1;
-	    }
-    }
-    
-    if ((board[0] !== null) && (board[0] === board[4]) && (board[4] === board[8])) {
-	gamestatus = true;
-	alert(`Player ${(turn % 2) ? 0 : 1} wins!`);
-	userscore[(turn % 2) ? 0 : 1] += 1;
-  	return gamestatus;
-    }
-    if ((board[2] !== null) && (board[2] === board[4]) && (board[4] === board[6])) {
-	gamestatus = true;
-	alert(`Player ${(turn % 2) ? 0 : 1} wins!`);
-	userscore[(turn % 2) ? 0 : 1] += 1;
-  	return gamestatus;
-    }
-    return gamestatus;    
+function createUser(name){
+	const username = name;
+	let score    = 0;
+	const addscore = ()=> score++;
+	const getscore = ()=> score;
+	const zeroscore = ()=>score=0;
+	
+	return {username, addscore, getscore, zeroscore};
 }
 
-let user = 0;
-let turn = 0;
-function game(num) {
-	board[num] = user;
-
-	gamestatus = checkGame(turn);
-
-	user = (user + 1) % 2;
-    	turn +=1;
-    	return gamestatus;
-}
-
-let score = document.querySelector('.score');
-let gameboard = document.querySelector('.gameboard');
-function play(button){
-    const fired_button = parseInt(button.value);
-    if (board[fired_button] !== null) {
-	    alert('Cell already taken! Choose again.');
-    }else {
-    	button.style.backgroundImage = `url(${user}.png)`;
-	let output = game(fired_button);
-	if(output === true || (output === false && turn === 8)){
-		board = [null, null, null, null, null, null, null, null, null];
-		turn = 0;
-		user = 0;
-		if (output === false && turn === 8){alert("It's draw!");};
-		document.querySelectorAll('button').forEach(button => { button.style.backgroundImage = '';});
-		score.textContent = `${userscore[0]} - ${userscore[1]}`;
+function game(user1, user2){
+	let board = new Array(9).fill(null);
+	let gamestatus = false;
+	let turn       = 0;
+	const players  = [user1, user2];
+	
+	const schema = [
+		[0, 1, 2], [3, 4, 5], [6, 7, 8],
+		[0, 3, 6], [1, 4, 7], [2, 5, 8],
+		[0, 4, 8], [2, 4, 6]
+	];
+	
+	//const setStartingPlayer = (playerIndex) => turn = playerIndex;
+	
+	const markCell = (cell)=> board[cell] = turn % 2;
+	
+	const nextMove = (bool) => {
+		if(bool){turn +=1;}
+		else{turn = 0;}
+		return turn;
+	};
+	
+	const resetGame = ()=>{
+		board.fill(null);
 		gamestatus = false;
-		return true;
+		turn = 0;
 	}
-    }            
+	
+	const isDraw = ()=>{
+		if(gamestatus === false && board.every((value)=>value!==null)){
+			return true;
+		}
+		return false;
+	}
+	
+	const checkGame = () => {    
+	    for(const pattern of schema){
+	    	const [i, j, k] = pattern;
+		if (board[i] !== null && board[i] === board[j] && board[j] === board[k]) {
+			gamestatus = true;
+			players[(turn - 1) % 2].addscore();
+			return;
+		}
+		
+	    }
+	    return;
+	}
+	
+	return {
+		get gamestatus() { return gamestatus; }, 
+		markCell, board, checkGame, 
+		resetGame, nextMove, isDraw
+	}; 
 }
+
+const user_1 = createUser(String(prompt("User 1 name")));
+const user_2 = createUser(String(prompt("User 2 name")));
+document.querySelector('.usernames').textContent = `${user_1.username} & ${user_2.username}`;
+
+const playBoard    = game(user_1, user_2);
 
 function reset(){
-	userscore = [0, 0];
-	board = [null, null, null, null, null, null, null, null, null];
-	turn = 0;
-	user = 0;
-	gameboard.querySelectorAll('button').forEach(button => { button.style.backgroundImage = '';});
-	score.textContent = `${userscore[0]} - ${userscore[1]}`;
+	user_1.zeroscore();
+	user_2.zeroscore();
+	playBoard.resetGame();
+	playBoard.nextMove(false);
+	document.querySelector('.gameboard').querySelectorAll('button').forEach(button => { button.style.backgroundImage = '';});
+	score.textContent = `${user_1.getscore()} - ${user_2.getscore()}`;
 }
+
+
+function play(button){
+    const fired_button = parseInt(button.value);
+    
+    if (playBoard.board[fired_button] !== null) {
+	    alert('Cell already taken! Choose again.');
+	    return;
+    }else {
+    	button.style.backgroundImage = `url(${(playBoard.nextMove(true)-1) % 2}.png)`;
+    	playBoard.markCell(fired_button);
+    	
+	playBoard.checkGame();
+	
+	if(playBoard.gamestatus === true || playBoard.isDraw()){
+		document.querySelectorAll('button').forEach(button => { button.style.backgroundImage = '';});
+		document.querySelector('.score').textContent = `${user_1.getscore()} - ${user_2.getscore()}`;
+		playBoard.resetGame();
+	}
+    }  
+}
+
 
 
 
