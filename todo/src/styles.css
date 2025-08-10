@@ -95,12 +95,12 @@ main {
     height:80%;
     display: grid; 
     grid-template-columns: auto minmax(50%, auto) auto; 
-    grid-template-rows: 4em auto 4em; 
-    gap: 0px 0px; 
+    grid-template-rows: 4em auto auto; 
+    gap: 1em 0em; 
     grid-template-areas: 
     ". . ."
     ". main ."
-    ". . ."; 
+    ". adding ."; 
     justify-items: center; 
     align-items: center; 
 }
@@ -131,6 +131,10 @@ main {
     width: 100%;
 }
 
+.content button {
+    cursor: pointer;
+}
+
 .projectDesc {
     opacity: 60%;
     border-bottom: 1px solid black;
@@ -154,6 +158,10 @@ main {
     background-color: aqua;
     align-items: center;
     padding: 1%;
+}
+
+.task button {
+    cursor: pointer;
 }
 
 .taskExpand {
@@ -189,6 +197,76 @@ main {
     border: none;
     flex: 1;
     background-color: var(--color);
+}
+
+.addProject {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background:  radial-gradient(
+        circle,
+        rgba(78, 78, 78, 0.8),
+        rgba(0, 0, 0, 1)
+    );
+    background-color: rgba(78, 78, 78, 0.7);
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+}
+
+.projectForm {
+    height: fit-content;
+    display: none;
+    z-index: 999;
+    opacity: 0;
+    position: relative;
+    transition: opacity 1s ease;
+}
+
+.projectForm form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.projectForm form label{
+    display: flex;
+    flex: 1;
+}
+
+.projectForm form label input {
+    border:1px solid blue;
+    margin-left: 2em;
+    flex: 1;
+}
+
+.projectForm form h2 {
+    display: flex;
+    text-align: center;
+    align-self: center;
+    color:goldenrod;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.projectForm form button {
+    color:white;
+    background-color: coral;
+    border: none;
+    height: 1.5em;
+}
+
+.addProjectButton {
+    display: flex;
+    grid-area: adding;
+    cursor: pointer;
+    align-items: center;
+    justify-items: center;
 }
 
 @media(max-width:800px) {
