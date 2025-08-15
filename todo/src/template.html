@@ -9,7 +9,7 @@
 <body>
     <nav>
         <ul class="sidebar">
-            <li onclick=hideSidebar()>
+            <li class="xmenu">
                 <a>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                 </a>
@@ -47,48 +47,23 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-155.5t86-127Q252-817 325-848.5T480-880q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-82q26-36 45-75t31-83H404q12 44 31 83t45 75Zm-104-16q-18-33-31.5-68.5T322-320H204q29 50 72.5 87t99.5 55Zm208 0q56-18 99.5-55t72.5-87H638q-9 38-22.5 73.5T584-178ZM170-400h136q-3-20-4.5-39.5T300-480q0-21 1.5-40.5T306-560H170q-5 20-7.5 39.5T160-480q0 21 2.5 40.5T170-400Zm216 0h188q3-20 4.5-39.5T580-480q0-21-1.5-40.5T574-560H386q-3 20-4.5 39.5T380-480q0 21 1.5 40.5T386-400Zm268 0h136q5-20 7.5-39.5T800-480q0-21-2.5-40.5T790-560H654q3 20 4.5 39.5T660-480q0 21-1.5 40.5T654-400Zm-16-240h118q-29-50-72.5-87T584-782q18 33 31.5 68.5T638-640Zm-234 0h152q-12-44-31-83t-45-75q-26 36-45 75t-31 83Zm-200 0h118q9-38 22.5-73.5T376-782q-56 18-99.5 55T204-640Z"/></svg>
                 </a>
             </li>
-            <li onclick=showSidebar() class="gamburger">
+            <li class="gamburger">
                 <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a>
             </li>
         </ul>
     </nav>
 
     <main>
-        <div class="contentContainer">
-            <div class="content">
-                <h2 class="projectName">Name</h2>
-                <h3 class="projectDesc">Description</h3>
-                <div class="tasks">
-                    <div class="task">
-                        <button class="taskExpand" title="Expand Task">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m480-340 180-180-57-56-123 123-123-123-57 56 180 180Zm0 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
-                        </button>
-                        <h4 class="taskName">Task</h4>
-                        <time class="taskTime" title="Due to">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>
-                        </time>
-                        <button class="taskEdit" title="Edit task">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="settingProject">
-                    <button class="addTask" title="Add Task">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                    </button>
-                    <button class="editProject" title="Edit Project">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z"/></svg>
-                    </button>
-                    <button class="expandProject" title="See all tasks">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-80 240-320l57-57 183 183 183-183 57 57L480-80ZM298-584l-58-56 240-240 240 240-58 56-182-182-182 182Z"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <div class="contentContainer"> </div>
         <div class="addProject">
             <div class="projectForm">
-                <form action="" method="post">
-                    <h2>Project</h2>
+                <form action="#projects" method="post">
+                    <h2 style="width:100%">
+                        Project 
+                        <div class="closeProjectForm" style="margin-left:auto;">
+                            <img src="../imgs/xmenu.svg" alt="Close Form">
+                        </div>
+                    </h2>
                     <label for="name" >
                         Name <input 
                         type="text" 
@@ -110,7 +85,7 @@
                         required
                         minlength="4"
                         maxlength="30"
-                        size="40"
+                        size="20"
                         />
                     </label>
                     <button type="submit">Add</button>
@@ -128,48 +103,6 @@
 
     </footer>
 
-    <script>
-        function showSidebar(){
-            let menu = document.querySelector(".sidebar");
-            menu.style.display = 'flex';
-        }
-        function hideSidebar(){
-            let menu = document.querySelector(".sidebar");
-            menu.style.display = 'none';
-        }
-        function showForm(){
-            const projectForm = document.querySelector(".addProject");
-            projectForm.style.display = 'flex'; 
-
-            const form = document.querySelector(".projectForm");
-            setTimeout(() => {
-                form.style.display = 'block';
-                form.style.opacity = 1;
-            }, 10);
-        }
-        function closeForm(){
-            const projectForm = document.querySelector(".addProject");
-            projectForm.style.display = 'none'; 
-
-            const form = document.querySelector(".projectForm");
-            setTimeout(() => {
-                form.style.display = 'none';
-                form.style.opacity = 0;
-            }, 10);
-        }
-        document.addEventListener('click', function(){
-            const addproject = document.querySelector(".addProjectButton");
-            addproject.addEventListener('click', showForm);
-
-            document.querySelector(".addProject").addEventListener('click',
-                function(e) {
-                    if (e.target === this) {
-                        closeForm();
-                    }
-                }
-            )
-        })
-</script>
 </body>
 
 </html>

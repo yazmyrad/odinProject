@@ -95,7 +95,7 @@ main {
     height:80%;
     display: grid; 
     grid-template-columns: auto minmax(50%, auto) auto; 
-    grid-template-rows: 4em auto auto; 
+    grid-template-rows: 4em minmax(70%, auto) auto; 
     gap: 1em 0em; 
     grid-template-areas: 
     ". . ."
@@ -113,18 +113,27 @@ main {
     column-gap: 5%;
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 80vh 80dvh;
+    padding-right: 30px;
+    box-sizing: border-box;
+    scrollbar-width: thin;
 }
 
 .content {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(149, 54, 238);
-    border-radius: 1rem;
+    border-bottom: 1px solid rgb(149, 54, 238);
     height: fit-content;
     width: 100%;
     justify-items: left; 
     align-items: center; 
     padding: 2%;
+}
+
+.project-header {
+    width:100%;
 }
 
 .content h2, h3 {
@@ -155,7 +164,6 @@ main {
     width: 99%;
     height: 40px;
     border-radius: 0.5rem;
-    background-color: aqua;
     align-items: center;
     padding: 1%;
 }
@@ -165,7 +173,6 @@ main {
 }
 
 .taskExpand {
-    background-color: aqua;
     border: none;
 }
 
@@ -180,7 +187,6 @@ main {
 }
 
 .taskEdit {
-    background-color: aqua;
     border: none;
     display: flex;
 }
@@ -220,12 +226,18 @@ main {
 }
 
 .projectForm {
+    visibility: hidden;
     height: fit-content;
-    display: none;
+    display: flex;
     z-index: 999;
     opacity: 0;
     position: relative;
     transition: opacity 1s ease;
+}
+
+.projectForm.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .projectForm form {
@@ -242,7 +254,7 @@ main {
 
 .projectForm form label input {
     border:1px solid blue;
-    margin-left: 2em;
+    margin-left: 1em;
     flex: 1;
 }
 
@@ -269,6 +281,88 @@ main {
     justify-items: center;
 }
 
+.addTaskForm {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background:  radial-gradient(
+        circle,
+        rgba(78, 78, 78, 0.8),
+        rgba(0, 0, 0, 1)
+    );
+    background-color: rgba(78, 78, 78, 0.7);
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: color;
+    font-style: bold;
+}
+
+.taskForm {
+    height: fit-content;
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+    opacity: 0;
+    top:-5em;
+    position: relative;
+    transition: opacity 1s ease;
+    background-color: white;
+    padding:1em;
+}
+
+.closeForm {
+    width: 100%;
+    display: flex;
+    font-size: larger;
+    color:orangered
+}
+
+.closeForm img {
+    margin-left: auto;
+    margin-bottom: 1em;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    cursor: pointer;
+}
+
+.taskForm form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.taskForm form label{
+    display: flex;
+    flex: 1;
+}
+
+.taskForm form label input {
+    border:1px solid blue;
+    margin-left: 2em;
+    flex: 1;
+}
+
+.taskForm form h2 {
+    display: flex;
+    text-align: center;
+    align-self: center;
+    color:goldenrod;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.taskForm form button {
+    color:white;
+    background-color: coral;
+    border: none;
+    height: 1.5em;
+}
+
 @media(max-width:800px) {
     .hideOnMobile {
         display: none;
@@ -277,6 +371,15 @@ main {
     .gamburger {
         display: flex;
     }
+
+    .projectForm {
+        width: 80%;
+    }
+
+    .contentContainer {
+        padding-right: 1.5em;
+    }
+
 }
 
 @media(max-width:400px) {
@@ -287,4 +390,5 @@ main {
     .gamburger {
         display: none;
     }
+
 }
