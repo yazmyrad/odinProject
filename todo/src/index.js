@@ -49,8 +49,9 @@ const Dom = {
 };
 
 class ProjectComponent {
-  constructor(container, project) {
+  constructor(container, project, ProjectManager) {
     this.container = container;
+    this.projectManager = ProjectManager;
     this.state = {
       name: project.name, //'Default Project',
       description: project.description, //'Project description',
@@ -256,6 +257,7 @@ class ProjectComponent {
         this.addTask(name, dueDate, priority);
         this.state.showForm = false;
         this.renderProject();
+        this.projectManager.saveToLocal();
       }
     });
 
@@ -298,6 +300,7 @@ class ProjectComponent {
         name: newName,
         dueDate: newDueDate
       };
+      this.projectManager.saveToLocal();
     }
   }
 
@@ -309,6 +312,7 @@ class ProjectComponent {
       this.state.name = newName;
       this.state.description = newDesc;
       this.renderProject();
+      this.projectManager.saveToLocal();
     }
   }
 
@@ -330,7 +334,7 @@ class ProjectComponent {
         }
       }
     });
-  }
+  };
 }
 
 class ProjectManager {
@@ -339,6 +343,8 @@ class ProjectManager {
     this.nextProjectId = 1;
     this.initElements();
     this.initEventListeners();
+    this.saveToLocal();
+    this.loadFromLocalStorage();
   }
 
   initElements() {
@@ -395,6 +401,8 @@ class ProjectManager {
 
     this.projects.push(projectData);
     this.renderProject(projectData);
+    this.saveToLocal();
+
   }
 
   renderProject(project) {
@@ -406,12 +414,40 @@ class ProjectManager {
     this.contentContainer.appendChild(projectElement);
 
     // Initialize project functionality
-    new ProjectComponent(projectElement, project);
+    new ProjectComponent(projectElement, project, this);
   };
+
+  saveToLocal() {
+    localStorage.setItem('todoProjects', JSON.stringify({
+      projects: this.projects,
+      nextProjectId: this.nextProjectId
+    }));
+  }
+
+  loadFromLocalStorage() {
+    const savedData = localStorage.getItem('todoProjects');
+    if (savedData) {
+      try {
+        const data = JSON.parse(savedData);
+        this.projects = data.projects || [];
+        this.nextProjectId = data.nextProjectId || 1;
+        
+        // Render all saved projects
+        this.projects.forEach(project => {
+          this.renderProject(project);
+        });
+      } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        this.projects = [];
+        this.nextProjectId = 1;
+      }
+    }
+  }
+
 }
 
 // Initialize the project
 document.addEventListener('DOMContentLoaded', () => {
-  new ProjectManager();
+  const project = new ProjectManager();
   
 });

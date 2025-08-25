@@ -15,10 +15,10 @@
                 </a>
             </li>
             <li>
-                <a href="#home">Home</a>
+                <a href="#home" onclick="home()">Home</a>
             </li>
             <li>
-                <a href="#projects">Projects</a>
+                <a href="#projects" onclick="projects()">Projects</a>
             </li>
             <li>
                 <a href="https://minniona.tech" target="_blank">About me</a>
@@ -34,10 +34,10 @@
                 <a href="#"><img src="../imgs/cat.png" alt="logo"></a>
             </li>
             <li class="hideOnMobile">
-                <a href="#home">Home</a>
+                <a href="#home" onclick="home()">Home</a>
             </li>
             <li class="hideOnMobile">
-                <a href="#projects">Projects</a>
+                <a href="#projects" onclick="projects()">Projects</a>
             </li>
             <li class="hideOnMobile">
                 <a href="https://minniona.tech" target="_blank">About me</a>
@@ -55,13 +55,18 @@
 
     <main>
         <div class="contentContainer"> </div>
+        <div class="contentContainer2"> 
+            <video autoplay preload="auto" height="450px" loop="true" id="video">
+                <source src="../imgs/nostalgy.mp4" type="video/mp4">
+            </video> 
+        </div>
         <div class="addProject">
             <div class="projectForm">
                 <form action="#projects" method="post">
                     <h2 style="width:100%">
                         Project 
                         <div class="closeProjectForm" style="margin-left:auto;">
-                            <img src="../imgs/xmenu.svg" alt="Close Form">
+                            <img src="../imgs/xmenu.svg" alt="Close Form" height="100%">
                         </div>
                     </h2>
                     <label for="name" >
@@ -102,7 +107,27 @@
     <footer>
 
     </footer>
+    <script>
+        function home(){
+            document.querySelector(".contentContainer").style.display = 'none';
+            document.querySelector(".contentContainer2").style.display = 'flex';
+            document.querySelector(".addProjectButton").style.display = 'none';
+            const video = document.querySelector("#video");
+            if(video){
+                video.play();
+            }
+        }
 
+        function projects(){
+            document.querySelector(".contentContainer2").style.display = 'none';
+            document.querySelector(".contentContainer").style.display = 'flex';
+            document.querySelector(".addProjectButton").style.display = 'flex';
+            const video = document.querySelector("#video");
+            if(video){
+                video.pause();
+            }
+        }
+    </script>
 </body>
 
 </html>

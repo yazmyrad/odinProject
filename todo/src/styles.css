@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--color);
     height: 100vh 100dvh;
@@ -119,6 +123,15 @@ main {
     padding-right: 30px;
     box-sizing: border-box;
     scrollbar-width: thin;
+}
+
+.contentContainer2 {
+    display: none;
+    grid-area: main;
+}
+
+video {
+    border-radius: 1em;
 }
 
 .content {
