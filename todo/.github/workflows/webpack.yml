@@ -37,23 +37,12 @@ jobs:
         echo "=== Testing FTP Connection ==="
         echo "Testing connection to ${{ secrets.FTP_SERVER }}:${{ secrets.FTP_PORT }}"
         # Basic network check
-        timeout 5 bash -c "echo > /dev/tcp/${{ secrets.FTP_SERVER }}/${{ secrets.FTP_PORT }}" && \
+        timeout 5 bash -c "echo > /dev/tcp/77.222.61.245/21" && \
         echo "✓ Port ${{ secrets.FTP_PORT } is open" || \
         echo "✗ Port ${{ secrets.FTP_PORT } is closed or unreachable"
 
     - name: Install FTP client for testing
       run: sudo apt-get update && sudo apt-get install -y ftp
-
-    - name: Manual FTP test (will fail but show why)
-      run: |
-        echo "=== Manual FTP Test ==="
-        echo "open ${{ secrets.FTP_SERVER }} ${{ secrets.FTP_PORT }}" > ftp_commands.txt
-        echo "user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}" >> ftp_commands.txt
-        echo "ls" >> ftp_commands.txt
-        echo "quit" >> ftp_commands.txt
-        
-        # This will likely fail but show the error
-        ftp -n < ftp_commands.txt || echo "FTP test completed (expected to fail in CI)"
 
     - name: Upload via FTP with detailed logging
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
