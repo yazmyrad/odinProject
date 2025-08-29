@@ -44,6 +44,17 @@ jobs:
     - name: Install FTP client for testing
       run: sudo apt-get update && sudo apt-get install -y ftp
 
+    - name: Debug FTP deployment
+      run: |
+        echo "=== FTP Deployment Details ==="
+        echo "Server: 77.222.61.245"
+        echo "Port: 21"
+        echo "Username: ${{ secrets.FTP_USERNAME }}"
+        echo "Local dir: ./dist/"
+        echo "Server dir: /dailytask_tech/public_html/"
+        echo "Files to deploy:"
+        find ./dist -type f
+
     - name: Upload via FTP with detailed logging
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
@@ -52,7 +63,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ./dailytask_tech/public_html/
+        server-dir: /dailytask_tech/
         protocol: ftp
         ftp-passive: true 
         log-level: verbose
