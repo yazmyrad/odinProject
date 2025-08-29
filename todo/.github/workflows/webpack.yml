@@ -3,7 +3,7 @@ name: Todo app CI/CD Debug
 on:
   push:
     branches: [ "main" ]
-    
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -58,12 +58,12 @@ jobs:
     - name: Upload via FTP with detailed logging
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        port: ${{ secrets.FTP_PORT }}
+        server: 77.222.61.245
+        port: 21
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ${{ secrets.FTP_SERVER_DIR }}
+        server-dir: /dailytask_tech/public_html/
         protocol: ftp
         log-level: verbose
         dangerous-clean-slate: false  # Change to false for safety first
