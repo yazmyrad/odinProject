@@ -1,4 +1,4 @@
-name: Todo app
+name: Todo CI/CD
 
 on:
   push:
