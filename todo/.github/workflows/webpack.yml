@@ -1,0 +1,39 @@
+name: Todo app
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: npm ci 
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Verify build output
+      run: ls -R dist/ 
+    
+    - name: upload via ftp
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: 77.222.61.245  
+        port: 21               
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./dist/      
+        server-dir: /dailytask_tech/public_html/      
+        protocol: ftp          
+        dangerous-clean-slate: true  
