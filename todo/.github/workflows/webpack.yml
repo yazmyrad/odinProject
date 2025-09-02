@@ -3,13 +3,12 @@ name: Todo app CI/CD Debug
 on:
   push:
     branches: [ "main" ]
+    paths: 
+      - 'todo/**'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./todo
     steps:
     - uses: actions/checkout@v4
 
@@ -67,7 +66,7 @@ jobs:
         port: 21
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
+        local-dir: ./todo/dist/
         server-dir: /dailytask_tech/
         protocol: ftp
         ftp-passive: true 
@@ -75,4 +74,4 @@ jobs:
         dangerous-clean-slate: false  # Change to false for safety first
 
     - name: Final verification
-      run: echo "If you see this, FTP step didn't fail catastrophically"
+      run: echo "Deployment complete"
