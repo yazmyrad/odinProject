@@ -67,7 +67,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./todo/dist/
-        server-dir: /dailytask_tech/
+        server-dir: /dailytask_tech/public_html/
         protocol: ftp
         ftp-passive: true 
         log-level: verbose
