@@ -5,14 +5,14 @@ export interface Node {
 };
 
 export abstract class Tree {
-    protected abstract root: Node;
+    protected root: Node;
 
     constructor(values: number[]){
-        this.buildTree(values);
+        this.root = this.buildTree(values);
     };
 
     protected abstract buildTree(values: number[]):Node;
-    abstract prettyPrint(node: Node, prefix: string, isLeft:boolean):void;
+    abstract printTree(node: Node, prefix: string, isLeft:boolean):void;
     abstract insert(value: number):boolean;
     abstract deleteItem(value: number):boolean;
     abstract find(value: number):Node|null;

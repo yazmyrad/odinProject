@@ -4,7 +4,7 @@ import {
 } from './abstract.ts';
 
 export class BTree extends Tree {
-    protected root: Node;
+    //protected root!: Node;
     constructor(values:number[]){
         super(values);
     }
@@ -13,11 +13,10 @@ export class BTree extends Tree {
         if(values.length === 0) throw new Error("Array must have at least one value");
         
         let arr: number[] = this.sortArray(values);
-        const n: number = arr.length-1;
+        const n: number = arr.length;
         const mid: number = Math.floor(n/2);
         const midVal: number = arr[mid];
-
-        const leftChild: Node|null = this.buildTreeRecursion(arr.slice(0, mid-1));
+        const leftChild: Node|null = this.buildTreeRecursion(arr.slice(0, mid));
         const rightChild: Node|null = this.buildTreeRecursion(arr.slice(mid+1));
 
         let root: Node = {
@@ -40,11 +39,11 @@ export class BTree extends Tree {
 
     protected buildTreeRecursion(arr:number[]):Node|null{
         if(arr.length === 0) return null;
-        const n: number = arr.length-1;
+        const n: number = arr.length;
         const mid: number = Math.floor(n/2);
         const midVal: number = arr[mid];
 
-        const leftChild: Node|null = this.buildTreeRecursion(arr.slice(0, mid-1));
+        const leftChild: Node|null = this.buildTreeRecursion(arr.slice(0, mid));
         const rightChild: Node|null = this.buildTreeRecursion(arr.slice(mid+1));
 
         let root: Node = {
@@ -56,14 +55,42 @@ export class BTree extends Tree {
         return root;
     };
 
-    prettyPrint(node: Node, prefix='', isLeft = true):void{
-        if(node === null) return;
+    printTree(node?:Node):void{
+        const height: number = this.height(this.root.value);
+        const rows: number = height+1;
+        const cols: number = Math.pow(2, height+1)-1;
 
-        if(node.leftChild !== null) this.prettyPrint(node.leftChild, `${prefix}${isLeft ? '|  ':'  '}`, true);
-        console.log(`${prefix}${isLeft ? '^___' : '____'}${node.value}`);
-        if(node.rightChild !== null) this.prettyPrint(node.rightChild, `${prefix}${isLeft ? '  ':'|  '}`, false);
-    
-    };
+        let matrx: Array<string[]> = Array.from({length: rows}, ()=>
+            Array(cols).fill("")
+        );
+
+        let arr: number[] = [];
+        this.levelOrderForEach((node:Node)=>{
+            arr.push(node.value);
+            return true;
+        });
+
+        let index:number = 0;
+        for(let level:number = 0; level < height; level++){
+            const nodesInLevel:number = Math.pow(2, level);
+            const space:number = Math.pow(2, height - level);
+            const offset:number = space/2 - 1;
+            for(let i:number = 0; i < nodesInLevel; i++){
+                if(index >= arr.length) break;
+                const value: number = arr[index++];
+                if(value){
+                    matrx[level][offset + i*space] = value.toString();
+                }
+            }
+        }
+        for (let i = 0; i < matrx.length; i++) {
+            let line = '';
+            for (let j = 0; j < matrx[i].length; j++) {
+                line += matrx[i][j];
+            }
+            console.log(line);
+        }
+    }
 
     insertRecur(node: Node | null, value: number):Node{
         if(node === null){
@@ -84,13 +111,14 @@ export class BTree extends Tree {
         if(!this.find(value)){
             this.insertRecur(this.root, value);
         }
+        this.rebalance();
         return true;
     };
 
-    getParent(node: Node):Node{
+    getSuccessor(node: Node):Node{
         let temp!: Node;
         if(node.rightChild) temp = node.rightChild;
-        while (temp?.leftChild !== null && temp?.rightChild !== null){
+        while (temp?.leftChild !== null){
             temp = temp?.leftChild;
         }
         return temp;
@@ -109,7 +137,7 @@ export class BTree extends Tree {
             }else if(node.rightChild === null){
                 return node.leftChild;
             }else {
-                let child = this.getParent(node);
+                let child = this.getSuccessor(node);
                 node.value = child.value;
                 node.rightChild = this.deleteRecur(node.rightChild, child.value);
             }
@@ -118,20 +146,21 @@ export class BTree extends Tree {
     }
     
     deleteItem(value: number):boolean{
-        if(!this.find(value)){
+        if(this.find(value)){
             this.deleteRecur(this.root, value);
             return true;
         }
+        this.rebalance();
         return false;
     };
 
     findRecur(node:Node, value:number):Node|null{
         if(node.value === value){
             return this.root;
-        }else if(this.root.value > value && this.root.leftChild !== null){
-            return this.findRecur(this.root.leftChild, value);
-        }else if(this.root.value < value && this.root.rightChild !== null){
-            return this.findRecur(this.root.rightChild, value);
+        }else if(node.value > value && node.leftChild !== null){
+            return this.findRecur(node.leftChild, value);
+        }else if(node.value < value && node.rightChild !== null){
+            return this.findRecur(node.rightChild, value);
         }else {
             return null
         }
@@ -143,8 +172,8 @@ export class BTree extends Tree {
     // BFS - Breadth First search is level Order traversal
     levelOrderForEach(callback:(node: Node)=>boolean):boolean{
         let que: Array<Node> = [this.root];
-        while(que){
-            let node: Node | undefined = que.pop();
+        while(que.length > 0){
+            let node: Node | undefined = que.shift();
             if(node){
                 if(!callback(node)) throw new Error("Callback function error");
                 if(node.leftChild) que.push(node.leftChild);
@@ -156,50 +185,44 @@ export class BTree extends Tree {
     };
     // DFS - Depth First search traversal are Pre/Post/In order traversal
     preOrderForEach(callback:(node: Node)=>boolean):boolean{
-        if(this.preOrderRecursive(this.root, callback)) return true;
-        return false;
+        return this.preOrderRecursive(this.root, callback);
     };
 
     preOrderRecursive(node:Node, callback:(node:Node)=>boolean):boolean{
         if(node === null){
             return true;
-        }else{
-            const res: boolean = callback(node);
-            if(node.leftChild !== null) this.preOrderRecursive(node.leftChild, callback);
-            if(node.rightChild !== null) this.preOrderRecursive(node.rightChild, callback);
-            return res;
         }
+        if(!callback(node)) return false;
+        if(node.leftChild !== null) this.preOrderRecursive(node.leftChild, callback);
+        if(node.rightChild !== null) this.preOrderRecursive(node.rightChild, callback);
+        return true;
     };
 
     inOrderForEach(callback: (node: Node) => boolean): boolean {
-        if(this.inOrderRecursive(this.root, callback)) return true;
-        return false;
+        return this.inOrderRecursive(this.root, callback);
     };
 
     inOrderRecursive(node:Node, callback:(node: Node)=>boolean):boolean{
         if(node === null){
             return true;
-        }else{
-            if(node.leftChild !== null) this.preOrderRecursive(node.leftChild, callback);
-            const res: boolean = callback(node);
-            if(node.rightChild !== null) this.preOrderRecursive(node.rightChild, callback);
-            return res;
         }
+        if(node.leftChild !== null) this.inOrderRecursive(node.leftChild, callback);
+        if(!callback(node)) return false;
+        if(node.rightChild !== null) this.inOrderRecursive(node.rightChild, callback);
+        return true;
     };
     
     postOrderForEach(callback:(node: Node)=>boolean):boolean{
-        if(this.postOrderRecursive(this.root, callback)) return true;
-        return false;
+        return this.postOrderRecursive(this.root, callback);
     };
 
     postOrderRecursive(node:Node, callback:(node:Node)=>boolean):boolean{
         if(node === null){
             return true;
-        }else{
-            if(node.leftChild !== null) this.preOrderRecursive(node.leftChild, callback);
-            if(node.rightChild !== null) this.preOrderRecursive(node.rightChild, callback);
-            return callback(node);
         }
+        if(node.leftChild !== null) this.postOrderRecursive(node.leftChild, callback);
+        if(node.rightChild !== null) this.postOrderRecursive(node.rightChild, callback);
+        return callback(node);
     };
     
     height(value: number): number{
@@ -210,8 +233,8 @@ export class BTree extends Tree {
 
     heightRecur(node: Node): number{
         if(node === null) return -1;
-        let leftHeight: number = -1;
-        let rightHeight: number = -1;
+        let leftHeight: number = 0;
+        let rightHeight: number = 0;
         if(node.leftChild) {
             leftHeight = this.heightRecur(node.leftChild);
         }else if(node.rightChild){
